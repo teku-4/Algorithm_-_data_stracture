@@ -148,17 +148,51 @@ void deleteSpecificposition(){
 	}
 }
 //--------------------------------------------------------------------
-void Search(){
-int keyid;
-int index=0;
-int midl	
-stud *	
+void Sort(){
+
+	
+stud *primary=new stud;
+stud *secondery=head;
+
+while(secondery!=NULL){
+	primary=secondery;
+	
+   secondery=secondery->next;
+	if(primary->Name > secondery->Name){
+		string temp=primary->Name;
+	    primary->Name=secondery->Name;
+	    secondery->Name=temp;}
+}
+ stud *temp1 = head;
+    while (temp1 != NULL) {
+        cout << temp1->ID << "\t" << temp1->Name << "\t\t" << temp1->Mark << endl;
+        temp1 = temp1->next;
+    }
 }
 void save(){
 	
 }
-void sort(){
-	
+void search(){
+
+	int keyid;
+   int index=0;
+   cout<<"Enter the key id  "<<endl;
+   int i=1;
+   stud *temp=head;
+   while(temp!=NULL){
+	   temp=temp->next;
+	   i++;
+	   if(temp->ID==keyid){
+		   index=i;
+	   }
+   }
+   if(index==0){
+	   cout<<"there is no such students "<<endl;
+   }
+   else{
+	   cout<<"the student you search is found at "<<index<<endl;
+	   cout<<"name: "<<temp->Name<<" "<<"mark: "<<temp->Mark<<endl;
+   }
 }
 void displaySaved(){
 	
@@ -177,6 +211,8 @@ void displayMenu() {
     cout << "5.  Delete from End\n";
     cout << "6.  Delete from Specific Position\n";
     cout << "7.  Display All Students\n";
+    cout << "8.  search Students\n";
+    cout << "9.  sort All Students\n";
     cout << "0.  Exit\n";
     cout << setfill('-') << setw(40) << "\n";
     cout << setfill(' ');
@@ -306,6 +342,11 @@ int main() {
             case 7: 
                 display();
                 break;
+            case 8:
+            	search();
+            	break;
+            case 9:
+            	Sort();
                 
             case 0: // Exit
                 cout << "Exiting program...\n";
@@ -325,5 +366,3 @@ int main() {
     
     return 0;
 }
-
-
