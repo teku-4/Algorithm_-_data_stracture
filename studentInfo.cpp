@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-#include <fstream>
+
 using namespace std;
 
 struct stud {
@@ -148,55 +148,121 @@ void deleteSpecificposition(){
 	}
 }
 //--------------------------------------------------------------------
-void Sort(){
+void sort(){
+	if(!head||!head->next){
+		cout<<"there is only one data or no data in the lists:"<<endl;
+	}
 
-	
-stud *primary=new stud;
-stud *secondery=head;
 
-while(secondery!=NULL){
-	primary=secondery;
+	bool swaped;
+
+
+
+	do{
+		stud *curr=head;
+		swaped=false;
+		while(curr->next!=NULL){
 	
-   secondery=secondery->next;
-	if(primary->Name > secondery->Name){
-		string temp=primary->Name;
-	    primary->Name=secondery->Name;
-	    secondery->Name=temp;}
-}
- stud *temp1 = head;
-    while (temp1 != NULL) {
+		if(curr->ID>curr->next->ID){
+		swap(curr->ID,curr->next->ID);
+		swap(curr->Name,curr->next->Name);
+		swap(curr->Mark,curr->next->Mark);
+		swaped=true;
+			
+		}
+		curr=curr->next;
+		}
+		
+	}
+	while(swaped);
+		
+		stud *temp1=head;
+		while (temp1!= NULL) {
         cout << temp1->ID << "\t" << temp1->Name << "\t\t" << temp1->Mark << endl;
         temp1 = temp1->next;
     }
-}
-void save(){
 	
 }
+
+//-----------------------------------------------------
+
 void search(){
 
 	int keyid;
-   int index=0;
-   cout<<"Enter the key id  "<<endl;
+   
+   cout<<"Enter the key id  ";
+   cin>>keyid;
    int i=1;
    stud *temp=head;
-   while(temp!=NULL){
+   while(temp->ID!=keyid && temp->next!=NULL){
 	   temp=temp->next;
-	   i++;
-	   if(temp->ID==keyid){
-		   index=i;
-	   }
+	  
+	   
    }
-   if(index==0){
-	   cout<<"there is no such students "<<endl;
-   }
-   else{
-	   cout<<"the student you search is found at "<<index<<endl;
-	   cout<<"name: "<<temp->Name<<" "<<"mark: "<<temp->Mark<<endl;
-   }
+if(temp->ID==keyid){
+	cout<<"Name: "<<temp->Name<<" ID: "<<temp->ID<<" Mark: "<<temp->Mark;
 }
-void displaySaved(){
+else{
+	cout<<"there is no such students:"<<endl;
+}
+}
+//-------------------------------------------------------------------------------
+void addsLeft(int id,string name,float mark){
 	
+	int keyid;
+	stud *temp=new stud;
+	temp->ID=id;
+	temp->Name=name;
+	temp->Mark=mark;
+	temp->next=NULL;
+	if(!head){
+		head=temp;
+	}
+	
+	else{
+		cout<<"Enter key id: ";
+		cin>>keyid;
+	if(head->ID=id){
+		temp->next=head;
+		head=temp;
+	}	
+	else{
+		stud *temp1=head;
+	
+		while(temp1->next->ID!=keyid && temp1->next!=NULL){
+		
+			temp1=temp1->next;
+		}
+		
+		temp->next=temp1->next;
+		temp1->next=temp;
+		
+	}
+		
+	}
 }
+void addsRight(int id,string name,float mark){
+	stud *temp=new stud;
+	temp->ID=id;
+	temp->Name=name;
+	temp->Mark=mark;
+	temp->next=NULL;
+	if(!head){
+		head=temp;
+	}
+	else{
+		int keyid;
+		cout<<"Enter key ID: ";
+		cin>>keyid;
+		stud *temp1=head;
+		while(temp1->ID!=keyid && temp1->next!=NULL){
+			temp1=temp1->next;
+		}
+		temp->next=temp1->next;
+		temp1->next=temp;
+	}
+}
+
 void displayMenu() {
     cout << "\n\n";
     cout << setfill('=') << setw(40) << "\n";
@@ -213,6 +279,10 @@ void displayMenu() {
     cout << "7.  Display All Students\n";
     cout << "8.  search Students\n";
     cout << "9.  sort All Students\n";
+    
+    cout << "10. add lefts of given student\n";
+    
+    cout << "11. add right of given student\n";
     cout << "0.  Exit\n";
     cout << setfill('-') << setw(40) << "\n";
     cout << setfill(' ');
@@ -235,6 +305,9 @@ void clearScreen(){
 
 int main() {
     int choice;
+    int id;
+    float mark;
+	string name;
     
     do {
         displayMenu();
@@ -251,9 +324,7 @@ int main() {
                 cin.ignore();
                 
                 for (int i = 0; i < count; i++) {
-                    int id;
-                    float mark;
-                    string name;
+                    
                     
                     cout << "\nStudent " << i+1 << ":\n";
                     cout << "ID: ";
@@ -277,9 +348,7 @@ int main() {
                 cin.ignore();
                 
                 for (int i = 0; i < count; i++) {
-                    int id;
-                    float mark;
-                    string name;
+                    
                     
                     cout << "\nStudent " << i+1 << ":\n";
                     cout << "ID: ";
@@ -305,10 +374,7 @@ int main() {
                 cin.ignore();
                 
                 for (int i = 0; i < count; i++) {
-                    int id;
-                    float mark;
-                    string name;
-                    
+                   
                     cout << "\nStudent " << i+1 << ":\n";
                     cout << "ID: ";
                     cin >> id;
@@ -346,8 +412,30 @@ int main() {
             	search();
             	break;
             case 9:
-            	Sort();
+            	sort();
+            case 10:
+            	cout<<"Enter ID: ";
+            	cin>>id;
+            	cin.ignore();
+            	cout<<"\n Enter Name: ";
+            	getline(cin,name);
+            	cout<<"\n Enter mark: ";
+            	cin>>mark;
+               addsLeft(id,name,mark);
+               break;
+           case 11:
+           	     
+            	cout<<"Enter ID: ";
+            	cin>>id;
+            	cin.ignore();
+            	cout<<"\n Enter Name: ";
+            	getline(cin,name);
+            	cout<<"\n Enter mark: ";
+            	cin>>mark;
+               addsRight(id,name,mark);
                 
+                break;
+          
             case 0: // Exit
                 cout << "Exiting program...\n";
                 break;
